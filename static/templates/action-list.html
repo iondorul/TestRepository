@@ -1,0 +1,81 @@
+<div class="ctl-actions row-fluid">
+    <div class="action-list sortable-list accordion form-vertical" data-ui-sortable="{placeholder: 'alert alert-block', handle: '.handle', change: changed}" data-ng-model="actions">
+        <div class="accordion-group action-root" data-ng-repeat="item in actions | filter:{EventName:eventName}" data-ng-class="{deleted: item.IsDeleted}">
+            <div class="accordion-heading btn-link-animate-trigger">
+
+                <button class="btn btn-link btn-small btn-link-animate show-70 pull-right" type="button" data-link-animate="danger" style="margin: 6px 6px 0 0;" data-ng-click="item.IsDeleted = !item.IsDeleted;" title="Note that the action is not actually deleted until you click the save button.">
+                    <i class="icon-trash"></i>
+                </button>
+
+                <i class="show-50 handle pull-left icon-align-justify" title="Drag to define order of execution..."></i>
+
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse{{item._uid}}">
+                    {{actionDefs[item.ActionType].Title[lang]}}
+                    <span data-ng-show="item.Description">({{item.Description}})</span>
+                </a>
+            </div>
+            <div id="collapse{{item._uid}}" class="accordion-body collapse" data-ng-class="{in: item._isOpen}">
+                <div class="accordion-inner">
+
+                    <p class="muted" style="margin-bottom: 20px;" data-ng-bind-html-unsafe="actionDefs[item.ActionType].HelpText[lang]">
+                    </p>
+
+                    <div class="control-group">
+                        <label class="control-label">About</label>
+                        <div class="controls">
+                            <input type="text" class="span12" data-ng-model="item.Description" placeholder="Something so you'd quickly know what this action is about..." />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                    <label class="control-label">Condition</label>
+                        <div class="controls">
+                            <input type="text" class="span12" data-ng-model="item.Condition" placeholder="" />
+                            <p class="muted help">
+                                This is a <a href="http://www.dnnsharp.com/dotnetnuke/modules/token-replacement/my-tokens" target="_blank">My Tokens</a> 
+                                expression used to determine either this action will execute. The expression must return something that can be represented as a boolean (true, false, 0, 1).
+                                A common example is [HasRole:Administrators|true]
+                            </p>
+                        </div>
+                    </div>
+
+                    <!--Render parameters-->
+                    <div data-ng-repeat="p in actionDefs[item.ActionType].Parameters" data-ng-include="'static/templates/parameter.html?v=' + sharedData.resourceVersion">
+                    </div>
+
+                    <div class="" data-ng-bind-html-unsafe="actionDefs[item.ActionType].FooterHtml">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="label label-important" data-ng-show="checkFinal(item)">
+                Actions below this line will never execute. Drag them above this action.
+            </div>
+        </div>
+
+    </div>
+
+    <div class="alert accordion-group" style="padding: 4px;">
+
+        <!--<div class="pull-right">
+            <button class="btn btn-link" data-ng-disabled="!actionsModified">Cancel</button>
+        </div>-->
+        <div class="pull-right" data-ng-show="!field">
+            <button class="btn" data-ng-click="save()" type="button" data-ng-disabled="!actionsModified" data-ng-class="{'btn-link': !actionsModified, 'btn-warning': actionsModified}">Save</button>
+        </div>
+
+        <div class="btn-group btn-link-animate-trigger">
+            <button class="btn btn-link btn-link-animate dropdown-toggle " data-toggle="dropdown" data-link-animate="info">
+                Add Action <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li data-ng-repeat="(key, defList) in actionDefGroups" class="dropdown-submenu">
+                    <a href="#" onclick="return false;">{{key}}</a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="actionDef in defList"><a data-ng-click="addAction(actionDef);">{{localize(actionDef.Title)}}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

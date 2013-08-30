@@ -1,0 +1,20 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD RowIndex int not NULL default(0)
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] SET RowIndex = ViewOrder
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD ColSpan int not NULL default(9)
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD ColOffset int not NULL default(0)
+GO

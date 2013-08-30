@@ -1,0 +1,224 @@
+<dotnetnuke version="5.0" type="Package" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <packages>
+    <package name="Action Form" type="Module" version="03.01.20">
+      <friendlyName>avt.ActionForm</friendlyName>
+      <description>Action Form is the ideal DNN Forms solution for controlling access to portal resources, to collect data from users before granting them access. It features powerful functions covering workflows, marketing, security and tracking.</description>
+      <iconFile>images/icon_dashboard.png</iconFile>
+      <owner>
+        <name>DNN Sharp</name>
+        <organization>DNN Sharp</organization>
+        <url>http://www.dnnsharp.com/dotnetnuke/modules/forms/action-form</url>
+        <email>support@dnnsharp.com</email>
+      </owner>
+      <license src="license.txt" />
+      <releaseNotes src="release-notes.html" />
+      <dependencies>
+        <dependency type="CoreVersion">05.05.00</dependency>
+      </dependencies>
+      <components>
+        <component type="Cleanup" version="01.03.00" fileName="01.03.00.txt" />
+        <component type="Cleanup" version="01.07.00" fileName="01.07.00.txt" />
+        <component type="Script">
+          <scripts>
+            <basePath>DesktopModules\AvatarSoft\ActionForm</basePath>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\01.02.00.SqlDataProvider</name>
+              <version>01.02.00</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\01.03.00.SqlDataProvider</name>
+              <version>01.03.00</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\01.06.00.SqlDataProvider</name>
+              <version>01.06.00</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\01.06.01.SqlDataProvider</name>
+              <version>01.06.01</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\01.09.00.SqlDataProvider</name>
+              <version>01.09.00</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\01.09.01.SqlDataProvider</name>
+              <version>01.09.01</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\02.00.00.SqlDataProvider</name>
+              <version>02.00.00</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\02.00.08.SqlDataProvider</name>
+              <version>02.00.08</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\02.01.15.SqlDataProvider</name>
+              <version>02.01.15</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\02.01.50.SqlDataProvider</name>
+              <version>02.01.50</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\02.01.61.SqlDataProvider</name>
+              <version>02.01.61</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\02.01.70.SqlDataProvider</name>
+              <version>02.01.70</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\02.01.72.SqlDataProvider</name>
+              <version>02.01.72</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\02.01.75.SqlDataProvider</name>
+              <version>02.01.75</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\03.00.08.SqlDataProvider</name>
+              <version>03.00.08</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\03.00.12.SqlDataProvider</name>
+              <version>03.00.12</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\03.00.30.SqlDataProvider</name>
+              <version>03.00.30</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\03.00.32.SqlDataProvider</name>
+              <version>03.00.32</version>
+            </script>
+            <script type="Install">
+              <name>DataProviders\SqlDataProvider\03.01.07.SqlDataProvider</name>
+              <version>03.01.07</version>
+            </script>
+            <script type="UnInstall">
+              <name>DataProviders\SqlDataProvider\Uninstall.SqlDataProvider</name>
+              <version>03.01.20</version>
+            </script>
+          </scripts>
+        </component>
+        <component type="Assembly">
+          <assemblies>
+            <assembly>
+              <name>avt.ActionForm.dll</name>
+              <sourceFileName>avt.ActionForm.dll</sourceFileName>
+              <version>03.01.20</version>
+            </assembly>
+            <assembly>
+              <name>avt.ActionForm.Core.dll</name>
+              <sourceFileName>avt.ActionForm.Core.dll</sourceFileName>
+              <version>03.01.20</version>
+            </assembly>
+            <assembly>
+              <name>LumenWorks.Framework.IO.dll</name>
+              <sourceFileName>LumenWorks.Framework.IO.dll</sourceFileName>
+              <version>03.07.00</version>
+            </assembly>
+          </assemblies>
+        </component>
+        <!-- <component type="Cleanup">
+     <files>
+      <file>
+       <path>bin</path>
+       <name>ActionForm.dll</name>
+      </file>
+     </files>
+    </component> -->
+        <component type="Module">
+          <desktopModule>
+            <moduleName>Action Form</moduleName>
+            <foldername>AvatarSoft\ActionForm</foldername>
+            <businessControllerClass>avt.ActionForm.ActionFormController, avt.ActionForm.Core</businessControllerClass>
+            <supportedFeatures>
+              <supportedFeature type="Portable" />
+              <supportedFeature type="Upgradeable" />
+            </supportedFeatures>
+            <moduleDefinitions>
+              <moduleDefinition>
+                <friendlyName>avt.Action Form</friendlyName>
+                <defaultCacheTime>-1</defaultCacheTime>
+                <moduleControls>
+                  <moduleControl>
+                    <controlKey />
+                    <controlSrc>DesktopModules/AvatarSoft/ActionForm/Main.ascx</controlSrc>
+                    <supportsPartialRendering />
+                    <controlTitle>Action Form</controlTitle>
+                    <controlType>View</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder />
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Form</controlKey>
+                    <controlSrc>DesktopModules/AvatarSoft/ActionForm/Form.ascx</controlSrc>
+                    <supportsPartialRendering />
+                    <controlTitle>Form</controlTitle>
+                    <controlType>View</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder />
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Manage</controlKey>
+                    <controlSrc>DesktopModules/AvatarSoft/ActionForm/Manage.ascx</controlSrc>
+                    <supportsPartialRendering />
+                    <controlTitle>Manage Action Form</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder />
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Reports</controlKey>
+                    <controlSrc>DesktopModules/AvatarSoft/ActionForm/Reports.ascx</controlSrc>
+                    <supportsPartialRendering />
+                    <controlTitle>Form Reports</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder />
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Layout</controlKey>
+                    <controlSrc>DesktopModules/AvatarSoft/ActionForm/CustomLayout.ascx</controlSrc>
+                    <supportsPartialRendering />
+                    <controlTitle>Edit Custom Layout</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder />
+                  </moduleControl>
+                </moduleControls>
+                <permissions />
+              </moduleDefinition>
+            </moduleDefinitions>
+          </desktopModule>
+          <eventMessage>
+            <processorType>DotNetNuke.Entities.Modules.EventMessageProcessor, DotNetNuke</processorType>
+            <processorCommand>UpgradeModule</processorCommand>
+            <attributes>
+              <businessControllerClass>avt.ActionForm.ActionFormController, avt.ActionForm.Core</businessControllerClass>
+              <desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
+              <upgradeVersionsList>
+              </upgradeVersionsList>
+            </attributes>
+          </eventMessage>
+        </component>
+        <component type="ResourceFile">
+          <resourceFiles>
+            <basePath>/DesktopModules/AvatarSoft/ActionForm</basePath>
+            <resourceFile>
+              <name>Resources.zip</name>
+            </resourceFile>
+          </resourceFiles>
+        </component>
+      </components>
+    </package>
+  </packages>
+</dotnetnuke>

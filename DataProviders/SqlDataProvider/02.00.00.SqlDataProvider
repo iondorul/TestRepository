@@ -1,0 +1,20 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_Reports] ADD FormKey nvarchar(512) NULL
+GO
+
+
+
+CREATE NONCLUSTERED INDEX [IX_{objectQualifier}avtActionForm_Reports_FormKey] ON {databaseOwner}[{objectQualifier}avtActionForm_Reports]
+(
+	[ModuleId] ASC,
+	[FormKey] ASC
+) ON [PRIMARY]
+GO
+

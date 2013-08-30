@@ -1,0 +1,2 @@
+Create XML files simillar to Defaults.xml to have your own group validations available in Action Form.
+Don't edit Defaults.xml as this file will get overwritten on upgrades!

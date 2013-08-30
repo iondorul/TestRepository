@@ -1,0 +1,10 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+IF NOT EXISTS (select * from INFORMATION_SCHEMA.COLUMNS where table_name = '{databaseOwner}[{objectQualifier}avtActionForm_FormFields]' and column_name = 'ShowCondition')
+	ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD ShowCondition ntext NULL
+GO

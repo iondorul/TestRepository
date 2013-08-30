@@ -1,0 +1,110 @@
+﻿
+
+----------------------------------------------------------------------------------------------------
+--- Create Tables
+----------------------------------------------------------------------------------------------------
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields](
+	[FormFieldId] [int] IDENTITY(1,1) NOT NULL,
+	[ModuleId] [int] NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[Title] [nvarchar](100) NOT NULL,
+	[HelpText] [ntext] NULL,
+	[InputTypeStr] [nvarchar](20) NOT NULL,
+	[InputData] [ntext] NULL,
+	[ViewOrder] [int] NOT NULL,
+	[IsRequired] [int] NOT NULL,
+	[IsActive] [int] NOT NULL,
+	[CssClass] [nvarchar](100) NULL,
+	[CssStyles] [nvarchar](1024) NULL,
+	[DefaultValue] [nvarchar](100) NULL,
+	[ColIndex] [int] NOT NULL,
+	[DateCreated] [datetime] NOT NULL,
+ CONSTRAINT [PK_{objectQualifier}avtActionForm_FormFields] PRIMARY KEY CLUSTERED 
+(
+	[FormFieldId] ASC
+)
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields]  WITH CHECK ADD  CONSTRAINT [FK_{objectQualifier}avtActionForm_FormFields_{objectQualifier}Modules] FOREIGN KEY([ModuleId])
+REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] CHECK CONSTRAINT [FK_{objectQualifier}avtActionForm_FormFields_{objectQualifier}Modules]
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD  CONSTRAINT [DF_{objectQualifier}avtActionForm_FormFields_ColIndex]  DEFAULT ((1)) FOR [ColIndex]
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD  CONSTRAINT [DF_{objectQualifier}avtActionForm_FormFields_DateCreated]  DEFAULT (getdate()) FOR [DateCreated]
+GO
+
+
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+CREATE TABLE {databaseOwner}[{objectQualifier}avtActionForm_Reports](
+	[ReportEntryId] [int] IDENTITY(1,1) NOT NULL,
+	[ModuleId] [int] NOT NULL,
+	[ReferrerInfo] [nvarchar](1024) NOT NULL,
+	[UserId] [int] NOT NULL,
+	[RemoteAddress] [nvarchar](50) NOT NULL,
+	[BrowserInfo] [nvarchar](1024) NOT NULL,
+	[DateSubmitted] [datetime] NOT NULL,
+	[FormData] [ntext] NOT NULL,
+ CONSTRAINT [PK_{objectQualifier}ActionForm_Reports] PRIMARY KEY CLUSTERED 
+(
+	[ReportEntryId] ASC
+)
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_Reports]  WITH CHECK ADD  CONSTRAINT [FK_{objectQualifier}ActionForm_Reports_{objectQualifier}Modules] FOREIGN KEY([ModuleId])
+REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_Reports] CHECK CONSTRAINT [FK_{objectQualifier}ActionForm_Reports_{objectQualifier}Modules]
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_Reports] ADD  CONSTRAINT [DF_{objectQualifier}ActionForm_Reports_UserId]  DEFAULT ((-1)) FOR [UserId]
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_Reports] ADD  CONSTRAINT [DF_{objectQualifier}ActionForm_Reports_RedirectedDateTime]  DEFAULT (getdate()) FOR [DateSubmitted]
+GO
+
+
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE {databaseOwner}[{objectQualifier}avtActionForm_Activations](
+	[RegistrationCode] [nvarchar](100) NOT NULL,
+	[Host] [nvarchar](255) NOT NULL,
+	[ActivationCode] [nvarchar](1024) NOT NULL,
+	[ProductKey] [nvarchar](1024) NOT NULL,
+	[BaseProductCode] [nvarchar](50) NOT NULL,
+	[BaseProductVersion] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_{objectQualifier}avtActionForm_Activations] PRIMARY KEY CLUSTERED 
+(
+	[RegistrationCode] ASC,
+	[Host] ASC
+)
+) ON [PRIMARY]
+
+GO
+

@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Validations>
+
+    <Validation>
+        <Title>Email Address</Title>
+        <Type>avt.ActionForm.Core.Validation.ValidatorRegex, avt.ActionForm.Core</Type>
+        <JsValidator>email</JsValidator>
+        <Params>
+            <Regex>^[A-Za-z0-9_\+-]+(\.[A-Za-z0-9_\+-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.([A-Za-z]{2,4})$</Regex>
+            <IgnoreCase>true</IgnoreCase>
+        </Params>
+        <ErrorMessage>
+            <key>validation.email</key>
+            <default>Please enter a valid email address.</default>
+        </ErrorMessage>
+    </Validation>
+
+    <Validation>
+        <Title>Web Address</Title>
+        <Type>avt.ActionForm.Core.Validation.ValidatorRegex, avt.ActionForm.Core</Type>
+        <JsValidator>url</JsValidator>
+        <Params>
+            <Regex>^(http:+\/\/)?(www.)?([a-zA-Z0-9_.-])+\.[a-z]+([^ ]*)?</Regex>
+            <IgnoreCase>true</IgnoreCase>
+        </Params>
+        <ErrorMessage>
+            <key>validation.url</key>
+            <default>The web address is invalid!</default>
+        </ErrorMessage>
+    </Validation>
+
+    <Validation>
+        <Title>Integer Number</Title>
+        <Type>avt.ActionForm.Core.Validation.ValidatorRegex, avt.ActionForm.Core</Type>
+        <JsValidator>number</JsValidator>
+        <Params>
+            <Regex>^\s*\d+\s*$</Regex>
+        </Params>
+        <ErrorMessage>
+            <key>validation.number</key>
+            <default>Please enter a valid number.</default>
+        </ErrorMessage>
+    </Validation>
+
+    <Validation>
+        <Title>Floating Point Number</Title>
+        <Type>avt.ActionForm.Core.Validation.ValidatorRegex, avt.ActionForm.Core</Type>
+        <JsValidator>float</JsValidator>
+        <Params>
+            <Regex>^\s*\d+(\.\d+)?\s*$</Regex>
+        </Params>
+        <ErrorMessage>
+            <key>validation.number</key>
+            <default>Please enter a valid number.</default>
+        </ErrorMessage>
+    </Validation>
+
+    <Validation>
+        <Title>Strip HTML</Title>
+        <Type>avt.ActionForm.Core.Validation.ValidatorRegexReplace, avt.ActionForm.Core</Type>
+        <Params>
+            <Regex>&lt;(.|\n)*?&gt;</Regex>
+            <ReplaceWith></ReplaceWith>
+        </Params>
+    </Validation>
+
+    <Validation>
+        <Title>Phone (###) ###-####</Title>
+        <Type>avt.ActionForm.Core.Validation.ValidatorRegex, avt.ActionForm.Core</Type>
+        <JsValidator>phoneus</JsValidator>
+        <Params>
+            <Regex>^([\(]{1}[0-9]{3}[\)]{1}[\.| |\-]{0,1}|^[0-9]{3}[\.|\-| ]?)?[0-9]{3}(\.|\-| )?[0-9]{4}$</Regex>
+        </Params>
+        <ErrorMessage>
+            <key>validation.phoneUS</key>
+            <default>Phone number must be in format (###) ###-####.</default>
+        </ErrorMessage>
+    </Validation>
+    
+    <Validation>
+        <Title>Date US (mm/dd/yyyy)</Title>
+        <Type>avt.ActionForm.Core.Validation.ValidatorRegex, avt.ActionForm.Core</Type>
+        <JsValidator>dateus</JsValidator>
+        <Params>
+            <Regex>^\b([1-9]|0[0-9]|1[0-2])\b\/\b([1-9]|0[0-9]|1[0-9]|2[0-9]|3[0-1])\b\/\b(19[0-9]{2}|20[0-2][0-9])\b$</Regex>
+        </Params>
+        <ErrorMessage>
+            <key>validation.dateUS</key>
+            <default>Date must be in format mm/dd/yyyy.</default>
+        </ErrorMessage>
+    </Validation>
+
+    <Validation>
+        <Title>No Whitespace</Title>
+        <Type>avt.ActionForm.Core.Validation.ValidatorRegex, avt.ActionForm.Core</Type>
+        <JsValidator>nowhitespace</JsValidator>
+        <Params>
+            <Regex>^[^ ]*$</Regex>
+        </Params>
+        <ErrorMessage>
+            <key>validation.nowhitespace</key>
+            <default>No spaces are allowed.</default>
+        </ErrorMessage>
+    </Validation>
+	
+	
+	<Validation>
+        <Title>Username is Available</Title>
+        <Type>avt.ActionForm.Core.Validation.SqlValidation, avt.ActionForm.Core</Type>
+        <JsValidator>validUsername</JsValidator>
+        <Params>
+            <Sql>
+			<![CDATA[
+				if exists(select UserId from {databaseOwner}[{objectQualifier}Users] where username = '{value}')
+					select 'User already exists'
+			]]>
+			</Sql>
+        </Params>
+		
+    </Validation>
+
+    <Validation>
+        <Title>User exists (by email)</Title>
+        <Type>avt.ActionForm.Core.Validation.SqlValidation, avt.ActionForm.Core</Type>
+        <JsValidator>validUsernameByEmail</JsValidator>
+        <Params>
+            <Sql>
+			<![CDATA[
+				if not exists(select top 1 UserId from {databaseOwner}[{objectQualifier}Users] where Email = '{value}')
+					select 'Not registered. <a href="/Register.aspx">Click here</a> to register.'
+			]]>
+			</Sql>
+        </Params>
+		
+    </Validation>
+    
+    
+    
+</Validations>

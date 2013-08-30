@@ -1,0 +1,44 @@
+.avtBox {
+    background-color: #fafafa; 
+    border: 2px solid #f2f2f2; 
+    padding: 4px;
+    margin-top: 10px;
+}
+
+
+.ui-widget {
+    font-size: 12px !important;
+}
+
+.sunny a:link, .sunny a:visited {
+    color: #3E81B5 !important;
+}
+
+.formHeader {
+    border-bottom: 1px solid #4a8094; 
+    font-size: 16px; 
+    font-weight: bold; 
+    margin: 0px 0 16px 0; 
+    padding-left: 4px; 
+    color: #4a8094;
+}
+
+.avtBox .err, .avtErr {
+    color: #ee2222;
+    display: none;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.ui-datepicker {
+    font-size: 0.9em !important;
+    width: 220px !important;
+}
+
+.formHeader a {
+    font-weight: bold;
+}
+
+.avtBox input, .avtBox select {
+    padding: 2px;
+}

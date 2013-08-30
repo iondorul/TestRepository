@@ -1,0 +1,67 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_Reports] ADD ValidationKey UniqueIdentifier default(newid()) NOT NULL
+GO
+
+CREATE UNIQUE NONCLUSTERED INDEX [IX_{objectQualifier}avtActionForm_Reports] ON {databaseOwner}[{objectQualifier}avtActionForm_Reports]
+(
+	[ValidationKey] ASC
+)
+GO
+
+
+
+
+
+CREATE TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormActions](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ModuleId] [int] NOT NULL,
+	[Description] [nvarchar](max) NULL,
+	[EventName] [nvarchar](100) NOT NULL,
+	[ActionType] [nvarchar](100) NOT NULL,
+	[ActionData] [ntext] NULL,
+	[OrderIndex] [int] NOT NULL,
+	[LastModified] [datetime] NOT NULL,
+	[LastModifiedBy] [int] NULL,
+ CONSTRAINT [PK_{objectQualifier}avtActionForm_FormActions] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormActions]  WITH CHECK ADD  CONSTRAINT [FK_{objectQualifier}avtActionForm_FormActions_{objectQualifier}Modules] FOREIGN KEY([ModuleId])
+REFERENCES {databaseOwner}[{objectQualifier}Modules] ([ModuleID])
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormActions] CHECK CONSTRAINT [FK_{objectQualifier}avtActionForm_FormActions_{objectQualifier}Modules]
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormActions]  WITH CHECK ADD  CONSTRAINT [FK_{objectQualifier}avtActionForm_FormActions_{objectQualifier}Users] FOREIGN KEY([LastModifiedBy])
+REFERENCES {databaseOwner}[{objectQualifier}Users] ([UserID])
+ON DELETE SET NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormActions] CHECK CONSTRAINT [FK_{objectQualifier}avtActionForm_FormActions_{objectQualifier}Users]
+GO
+
+
+CREATE NONCLUSTERED INDEX [IX_{objectQualifier}avtActionForm_FormActions] ON {databaseOwner}[{objectQualifier}avtActionForm_FormActions]
+(
+	[ModuleId] ASC,
+	[EventName] ASC
+)
+GO
+
+
+
+
+
+

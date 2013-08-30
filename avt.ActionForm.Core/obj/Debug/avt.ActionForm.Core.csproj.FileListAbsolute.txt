@@ -1,0 +1,10 @@
+D:\bin\avt.ActionForm.Core.dll
+D:\bin\avt.ActionForm.Core.pdb
+D:\clone ActionForm\avt.ActionForm.Core\obj\Debug\ResolveAssemblyReference.cache
+D:\clone ActionForm\avt.ActionForm.Core\obj\Debug\avt.ActionForm.Core.dll
+D:\clone ActionForm\avt.ActionForm.Core\obj\Debug\avt.ActionForm.Core.pdb
+D:\DNNWebsites\DNN561Source\website\bin\avt.ActionForm.Core.dll
+D:\DNNWebsites\DNN561Source\website\bin\avt.ActionForm.Core.pdb
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\avt.ActionForm.Core\obj\Debug\ResolveAssemblyReference.cache
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\avt.ActionForm.Core\obj\Debug\avt.ActionForm.Core.dll
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\avt.ActionForm.Core\obj\Debug\avt.ActionForm.Core.pdb

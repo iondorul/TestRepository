@@ -1,0 +1,14 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD ValidationGroup nvarchar(50) NULL
+GO
+
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD GroupValidator nvarchar(100) NULL
+GO

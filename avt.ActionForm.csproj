@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A125BEB7-6106-4C84-A81D-E0C2F285E4F7}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>avt.ActionForm</RootNamespace>
+    <AssemblyName>avt.ActionForm</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <TargetFrameworkProfile />
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <MSBuildCommunityTasksPath>$(SolutionDir)\Build</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetNuke, Version=5.6.1.238, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>!Dependencies\DotNetNuke.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LumenWorks.Framework.IO">
+      <HintPath>!Dependencies\LumenWorks.Framework.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>!Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomLayout.ascx.cs">
+      <DependentUpon>CustomLayout.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomLayout.ascx.designer.cs">
+      <DependentUpon>CustomLayout.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Initialize.aspx.cs">
+      <DependentUpon>Initialize.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Initialize.aspx.designer.cs">
+      <DependentUpon>Initialize.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Main.ascx.designer.cs">
+      <DependentUpon>Main.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage.ascx.designer.cs">
+      <DependentUpon>Manage.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage.aspx.cs">
+      <DependentUpon>Manage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage.aspx.designer.cs">
+      <DependentUpon>Manage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports.ascx.designer.cs">
+      <DependentUpon>Reports.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WndTextEditor.aspx.cs">
+      <DependentUpon>WndTextEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Form.ascx.designer.cs">
+      <DependentUpon>Form.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="PayPal.aspx.cs">
+      <DependentUpon>PayPal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PayPal.aspx.designer.cs">
+      <DependentUpon>PayPal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RegCore\Activation.aspx.cs">
+      <DependentUpon>Activation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RegCore\Activation.aspx.designer.cs">
+      <DependentUpon>Activation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RegCore\QuickStatusAndLink.ascx.cs">
+      <DependentUpon>QuickStatusAndLink.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RegCore\QuickStatusAndLink.ascx.designer.cs">
+      <DependentUpon>QuickStatusAndLink.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="RegCore\UnlockTrial.aspx.cs">
+      <DependentUpon>UnlockTrial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RegCore\UnlockTrial.aspx.designer.cs">
+      <DependentUpon>UnlockTrial.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports.ascx.cs">
+      <DependentUpon>Reports.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Form.ascx.cs">
+      <DependentUpon>Form.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Main.ascx.cs">
+      <DependentUpon>Main.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage.ascx.cs">
+      <DependentUpon>Manage.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WndTextEditor.aspx.designer.cs">
+      <DependentUpon>WndTextEditor.aspx</DependentUpon>
+    </Compile>
+    <Content Include="admin.css" />
+    <Content Include="Config\Actions\.readme.txt" />
+    <Content Include="Config\Templates\.readme.txt" />
+    <Content Include="Config\Currency.xml" />
+    <Content Include="Config\GroupValidators\.readme.txt" />
+    <Content Include="Config\InputTypes\.readme.txt" />
+    <Content Include="Config\PredefinedFields\.readme.txt" />
+    <Content Include="Config\PredefinedFields\Defaults.xml" />
+    <Content Include="Config\Validators\.readme.txt" />
+    <Content Include="Config\Validators\Defaults.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="CustomLayout.ascx" />
+    <Content Include="DataProviders\SqlDataProvider\readme.txt" />
+    <Content Include="Initialize.aspx" />
+    <Content Include="js\jquery-1.8.3.js" />
+    <Content Include="js\jquery-ui-1.9.2.js" />
+    <Content Include="license.txt" />
+    <Content Include="Manage.aspx" />
+    <Content Include="release-notes.html" />
+    <Content Include="static\admin.css" />
+    <Content Include="static\admin.js" />
+    <Content Include="static\angular-dragdrop.min.js" />
+    <Content Include="static\angular-sortable.min.js" />
+    <Content Include="static\angular-dragdrop.js" />
+    <Content Include="static\angular-tinymce.js" />
+    <Content Include="static\angular.min.js" />
+    <Content Include="static\bootstrap-select.min.css" />
+    <Content Include="static\bootstrap-select.min.js" />
+    <Content Include="static\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="static\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="static\bootstrap\css\bootstrap.css" />
+    <Content Include="static\bootstrap\css\bootstrap.min.css" />
+    <Content Include="static\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="static\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="static\bootstrap\js\bootstrap.js" />
+    <Content Include="static\bootstrap\js\bootstrap.min.js" />
+    <Content Include="static\angular-dnd.min.js" />
+    <Content Include="static\angular-spanresize.js" />
+    <Content Include="static\images\loading.gif" />
+    <Content Include="static\images\ui-icons_222222_256x240.png" />
+    <Content Include="static\jquery-ui.interactions.min.js" />
+    <Content Include="static\jquery.min.js" />
+    <Content Include="static\json2.js" />
+    <Content Include="static\templates\action-list.html" />
+    <Content Include="static\templates\parameter.html" />
+    <Content Include="templates\Form\bootstrap\bootstrap.min.js" />
+    <Content Include="templates\Form\bootstrap\controls\checkbox.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\checkbox-list.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\attr-common.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\captcha.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\button.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\image.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\image-button.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\upload.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\itemwithqty.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\region.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\country.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\label.xsl" />
+    <Content Include="templates\Form\bootstrap\controls\datepicker.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\static.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\label-only.xsl" />
+    <Content Include="templates\Form\bootstrap\controls\hidden.xsl" />
+    <Content Include="templates\Form\bootstrap\controls\radio.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\textarea.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\main.xsl" />
+    <Content Include="templates\Form\bootstrap\controls\dropdown.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\controls\textbox.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\fileupload\cors\postmessage.html" />
+    <Content Include="templates\Form\bootstrap\fileupload\cors\result.html" />
+    <Content Include="templates\Form\bootstrap\fileupload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="templates\Form\bootstrap\fileupload\css\jquery.fileupload-ui.css" />
+    <Content Include="templates\Form\bootstrap\fileupload\css\style.css" />
+    <Content Include="templates\Form\bootstrap\fileupload\img\loading.gif" />
+    <Content Include="templates\Form\bootstrap\fileupload\img\progressbar.gif" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\app.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\cors\jquery.postmessage-transport.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\cors\jquery.xdr-transport.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.fileupload-angular.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.fileupload-audio.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.fileupload-image.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.fileupload-process.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.fileupload-ui.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.fileupload-validate.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.fileupload-video.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.fileupload.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\jquery.iframe-transport.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\main.js" />
+    <Content Include="templates\Form\bootstrap\fileupload\js\vendor\jquery.ui.widget.js" />
+    <Content Include="templates\Form\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="templates\Form\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="templates\Form\bootstrap\img\loading.gif" />
+    <Content Include="templates\Form\bootstrap\main.xsl">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="templates\Form\bootstrap\script.js" />
+    <Content Include="templates\Form\bootstrap\styles.css" />
+    <Content Include="version.txt" />
+    <Content Include="WndTextEditor.aspx" />
+    <Content Include="js\json2.js" />
+    <Content Include="PayPal.aspx" />
+    <Content Include="RegCore\Activation.aspx" />
+    <Content Include="RegCore\QuickStatusAndLink.ascx" />
+    <Content Include="RegCore\res\bk.png" />
+    <Content Include="RegCore\res\btn_cancel.png" />
+    <Content Include="RegCore\res\btn_next.png" />
+    <Content Include="RegCore\res\btn_purchase.png" />
+    <Content Include="RegCore\res\icon_help.png" />
+    <Content Include="RegCore\res\icon_help_over.png" />
+    <Content Include="RegCore\res\style.css" />
+    <Content Include="RegCore\UnlockTrial.aspx" />
+    <Content Include="Reports.ascx" />
+    <Content Include="Form.ascx" />
+    <Content Include="Main.ascx" />
+    <Content Include="Manage.ascx" />
+    <Content Include="module.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="templates\EmailNotification\" />
+    <Folder Include="templates\EmailUsers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="avt.ActionForm.Core\avt.ActionForm.Core.csproj">
+      <Project>{AA96FB7B-EA1F-4207-9117-8A418C74C3AD}</Project>
+      <Name>avt.ActionForm.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Submit.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\01.02.00.SqlDataProvider" />
+    <Content Include="DataProviders\SqlDataProvider\01.03.00.SqlDataProvider" />
+    <Content Include="DataProviders\SqlDataProvider\01.06.00.SqlDataProvider" />
+    <Content Include="DataProviders\SqlDataProvider\01.06.01.SqlDataProvider" />
+    <Content Include="DataProviders\SqlDataProvider\01.09.00.SqlDataProvider" />
+    <Content Include="DataProviders\SqlDataProvider\01.09.01.SqlDataProvider" />
+    <Content Include="DataProviders\SqlDataProvider\02.00.00.SqlDataProvider" />
+    <Content Include="DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="avt.ActionForm.dnn">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GetDnnList.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Validation.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\GroupValidators\Defaults.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Config\GroupValidators\NetCash.BankAccount.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\02.00.08.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\02.01.15.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Actions\.defaults.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AdminApi.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\02.01.50.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Migrate.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\02.01.61.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UploadFile.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\02.01.70.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\InputTypes\.defaults.config" />
+    <Content Include="Config\InputTypes\DateTime.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\02.01.72.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\02.01.75.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\03.00.08.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\03.00.12.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\03.00.30.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Templates\Login Form.config" />
+    <Content Include="Config\Templates\Registration Form.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataProviders\SqlDataProvider\03.00.32.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Templates\Blank Form.config" />
+    <Content Include="Config\Templates\Contact Form.config" />
+    <Content Include="Config\Templates\Subscribe to Mailchimp.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PublishPackage|AnyCPU'">
+    <OutputPath>bin\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>11813</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>
+          </IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="Build\PublishPackage.Targets" />
+  <Target Name="AfterBuild" DependsOnTargets="PublishPackage">
+  </Target>
+  <Import Project="$(SolutionDir)\Build\MSBuild.Community.Tasks.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,13 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+-- migrate default values
+UPDATE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] SET InputTypeStr = 'open-password'
+	where InputTypeStr = 'open-password-confirm'
+GO
+

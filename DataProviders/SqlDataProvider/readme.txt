@@ -1,0 +1,1 @@
+This folder contains SQL install/upgrade scripts

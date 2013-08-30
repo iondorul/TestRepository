@@ -1,0 +1,17 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+-- migrate default values
+UPDATE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] SET InputData = 
+	 CASE 
+		WHEN InputData IS NULL OR cast(InputData as nvarchar(max)) = '' OR cast(InputData as nvarchar(max)) = '{}' THEN '{Value:"'+ REPLACE(REPLACE(Cast(DefaultValue as nvarchar(MAX)), '\', '\\'), '"', '\"') +'"}' 
+		ELSE LEFT(cast(InputData as nvarchar(max)), LEN(cast(InputData as nvarchar(max))) - 1) + ',Value:"'+ REPLACE(REPLACE(Cast(DefaultValue as nvarchar(MAX)), '\', '\\'), '"', '\"') +'"}' 
+	 END
+  where DefaultValue IS NOT NULL and LEN(CAST(DefaultValue as NVARCHAR(max))) > 0
+GO
+

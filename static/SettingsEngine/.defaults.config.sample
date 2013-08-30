@@ -1,0 +1,31 @@
+        
+
+        <Parameter>
+            <Id>ShowIn</Id>
+            <Title>
+                <Item key="default">Show In</Item>
+            </Title>
+            <HelpText>
+                <Item key="default">This button may also appear in the Display Message action.</Item>
+            </HelpText>            
+            <Type>RadioList</Type>
+            <Settings>
+                <Items>{ "Form": { "default": "Form" }, "ButtonsPane": { "default": "Buttons Pane" }, "Another": { "default": "An Other" }}</Items>
+                <Defaults>ButtonsPane</Defaults>
+            </Settings>
+        </Parameter>
+
+        <Parameter>
+            <Id>ShowIn</Id>
+            <Title>
+                <Item key="default">Show In</Item>
+            </Title>
+            <HelpText>
+                <Item key="default">This button may also appear in the Display Message action.</Item>
+            </HelpText>            
+            <Type>CheckboxList</Type>
+            <Settings>
+                <Items>{ "Form": { "default": "Form" }, "ButtonsPane": { "default": "Buttons Pane" }, "Another": { "default": "An Other" }}</Items>
+                <Defaults>{"ButtonsPane":"true", "Another":"false"}</Defaults>
+            </Settings>
+        </Parameter>

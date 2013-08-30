@@ -1,0 +1,15 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+UPDATE {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] SET SettingValue='bootstrap' where SettingName = 'FormTemplate'
+GO
+
+UPDATE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] SET InputData = '{"Values":"' + replace(replace(replace(cast(InputData as nvarchar(MAX)), '"', '\"'), CHAR(10), '\n'), CHAR(13), '\r') +'"}'
+WHERE LEN(cast(InputData as nvarchar(MAX))) > 0
+GO
+

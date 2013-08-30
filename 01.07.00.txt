@@ -1,0 +1,9 @@
+﻿DesktopModules\AvatarSoft\ActionForm\act\bk.png
+DesktopModules\AvatarSoft\ActionForm\act\btn_cancel.png
+DesktopModules\AvatarSoft\ActionForm\act\btn_next.png
+DesktopModules\AvatarSoft\ActionForm\act\btn_purchase.png
+DesktopModules\AvatarSoft\ActionForm\act\icon_help.png
+DesktopModules\AvatarSoft\ActionForm\act\icon_help_over.png
+DesktopModules\AvatarSoft\ActionForm\act\style.css
+DesktopModules\AvatarSoft\ActionForm\act\
+DesktopModules\AvatarSoft\ActionForm\Activation.aspx

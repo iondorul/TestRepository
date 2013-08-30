@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Currencies>
+    <Currency>
+        <Code>USD</Code>
+        <Name>U.S. Dollars (USD)</Name>
+    </Currency>
+    <Currency>
+        <Code>EUR</Code>
+        <Name>Euros (EUR)</Name>
+    </Currency>
+    <Currency>
+        <Code>CAD</Code>
+        <Name>Canadian Dollars (CAD)</Name>
+    </Currency>
+    <Currency>
+        <Code>GBP</Code>
+        <Name>Pounds Sterling (GBP)</Name>
+    </Currency>
+    <Currency>
+        <Code>AUD</Code>
+        <Name>Australian Dollar (AUD)</Name>
+    </Currency>
+</Currencies>

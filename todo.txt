@@ -1,0 +1,115 @@
+Musts:
+- dialog to bootstrap popup?
+- fix empty reports
+- add link to Reports from the Manage screen
+
+
+Bugs:
+- 2 date controls in same form fail
+- confirm password
+- upload field crash when 2 action form exist on same page
+
+Actions
+- revoke roles
+- post to new window
+
+Validations
+- migrate to a new table
+- any number of validators
+- defined order
+- attach events
+
+Fields
+- Upload
+  - choose between starting immediately or waiting for submit
+
+
+Buttons
+- eliminate similar controls (like yes/no/maybe or horizontal/vertical checkboxes or country code/name and region code/name) - even if we support them, just add them as a radiogroup with a few options already added
+- ability to attach icons to buttons 
+- sort submit buttons
+- buttons in the dialog (main.ascx.cs:170)
+- warning if there's no submit button
+
+- remove WndTextEditor?
+
+
+- HelpText /Short Desc? => placeholder
+- escape html?
+- required checkboxes and radios
+- form align
+- Key Field
+
+
+
+- switch between rich edit and text edit and html edit
+
+- migrate ItemsFromConfig to ConfigFolder
+
+- lang for fields
+
+- how to localize config files?
+
+- cleanup SaveReportLogs mess
+
+Action Lists
+- Group actions in Add Action
+- required fields
+- other validations
+- Implement actions
+  - [almost done - remove on final submit?] save report
+- specific order of actions in list of Add Action dropdown
+
+- page picker
+- file picker
+
+- flag if supports MyTokens
+
+- Preview Entry
+- My Entries
+- Draft/Final
+
+
+- on add actions ask where you want to add with highlighers (alert-block)?
+- custom admin config forms per action
+
+- handle .resouce files
+
+- reimplement force download
+
+- "your download will begin shortly" message?
+
+- don't save passwords in report
+
+- colapse actions on save/delete?
+
+- button to go back from the new admin
+
+
+
+Optimizations:
+- only load JS for validators that are used
+
+
+- miniify
+
+Change config format
+Remove control classes
+Cleanup label controls
+Auto add validators for Email and Username fields
+Load titles from config with or without localization
+
+
+Submit types
+- normal POST
+- AJAX (current)
+- in an iFrame
+
+
+Autosave draft
+
+Turn fields into true tokens
+
+
+Richard:
+The activation/Unlock Trial and Buy Licence links are at the bottom of the page even after the module has been activated.

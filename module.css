@@ -1,0 +1,39 @@
+.actionForm .err, #afTabs .err {
+    color: #cc2222;
+}
+/* .DnnModule-ActionForm { z-index: 99999; }  */
+/* .DnnModule-ActionForm { z-index: 1000; }  */
+.aftpl_wait {
+    display: none;
+    text-align: center;
+    margin: 20px;
+}
+
+/*.required {
+    color: red;
+    margin: 0 6px;
+}*/
+
+.actionForm .dnnForm {
+    margin-left: 0;
+}
+
+/*DNN 7 compatibility styles*/
+
+.dnnFormPopup {
+    overflow: visible !important;
+    padding: 18px !important;
+}
+
+    .dnnFormPopup .dnnModalCtrl a.ui-dialog-titlebar-close {
+        padding: 0;
+        position: static;
+    }
+
+    .dnnFormPopup .ui-resizable-handle {
+        display: none !important;
+    }
+
+    .dnnFormPopup .ui-resizable-se {
+        display: block !important;
+    }

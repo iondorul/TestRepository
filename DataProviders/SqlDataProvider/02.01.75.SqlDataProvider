@@ -1,0 +1,44 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+EXEC sp_rename '{databaseOwner}[{objectQualifier}avtActionForm_FormSettings].SettingId', 'Id', 'COLUMN';
+GO
+EXEC sp_rename '{databaseOwner}[{objectQualifier}avtActionForm_FormSettings].SettingName', 'Name', 'COLUMN';
+GO
+EXEC sp_rename '{databaseOwner}[{objectQualifier}avtActionForm_FormSettings].SettingValue', 'Value', 'COLUMN';
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] ADD CanOverride bit not NULL default(0)
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] ADD Inherit bit not NULL default(0)
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] ADD LastModified datetime not NULL default(getdate())
+GO
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] ADD LastModifiedBy int NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormSettings]  WITH CHECK ADD  CONSTRAINT [FK_{objectQualifier}avtActionForm_FormSettings_{objectQualifier}Users] FOREIGN KEY([LastModifiedBy])
+REFERENCES {databaseOwner}[{objectQualifier}Users] ([UserID])
+ON DELETE SET NULL
+GO
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] CHECK CONSTRAINT [FK_{objectQualifier}avtActionForm_FormSettings_{objectQualifier}Users]
+GO
+
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormSettings](ModuleId, Name, Value)
+	SELECT ModuleId, 'HasCustomLayout', 'True' FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] 
+	WHERE Name='Layout' and cast(Value as nvarchar(MAX)) = 'custom'
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormSettings](ModuleId, Name, Value)
+	SELECT distinct(ModuleId), 'IsInitialized', 'True' FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] 
+	Group By ModuleId
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] WHERE Name='Layout'
+GO
+

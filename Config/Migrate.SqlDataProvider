@@ -1,0 +1,251 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+
+-- migrate paypal settings
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'PaypalPayment', '{'+
+	'SandboxAccount:''' + REPLACE(cast([Value] as XML).value('(//sandboxAccount)[1]', 'nvarchar(MAX)'), '''', '\''') + ''',' +
+	'LiveAccount:''' + REPLACE(cast([Value] as XML).value('(//liveAccount)[1]', 'nvarchar(MAX)'), '''', '\''') + ''',' +
+	'TestMode:' + cast([Value] as XML).value('(//testMode)[1]', 'nvarchar(MAX)') + ',' +
+	'Recurring:''' + REPLACE(cast([Value] as XML).value('(//recurring)[1]', 'nvarchar(MAX)'), '''', '\''') + ''',' +
+	'ItemTitle:''' + REPLACE(cast([Value] as XML).value('(//itemTitle)[1]', 'nvarchar(MAX)'), '''', '\''') + ''',' +
+	'CurrencyCode:''' + REPLACE(cast([Value] as XML).value('(//currency)[1]', 'nvarchar(MAX)'), '''', '\''') + ''',' +
+	'Amount:''' + REPLACE(cast([Value] as XML).value('(//amount)[1]', 'nvarchar(MAX)'), '''', '\''') + ''',' +
+	'CancelPageId:' + cast([Value] as XML).value('(//cancelPage)[1]', 'nvarchar(MAX)') + '}',
+	100, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='PayPalSettingsXml' and LEN(cast([Value] as nvarchar(MAX))) > 0 and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name]='PayPalSettingsXml' and ModuleId={ModuleId}
+GO
+
+-- migrate login action
+
+INSERT INTO  {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'UserLogin', null, 200, getdate() FROM  {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='RegLogin' and cast([Value] as nvarchar(MAX))='True' and Main.ModuleId={ModuleId}
+GO
+
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('RegLogin', 'RegLoginWithEmail') and ModuleId={ModuleId}
+GO
+
+-- migrate register action
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'UserRegistration', '{'+
+	'EmailUsername:' + (select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='RegEmailAsUsername') + ',' +
+	'RandomPass:' + (select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='RegRandomPass') + ',' +
+	'SendDnnMail:' + (select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='RegSendEmail') + ',' +
+	'LoginIfExists:' + (select LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='RegIgnoreUserExists') +
+	'}', 200, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='RegCreateAccount' and cast([Value] as nvarchar(MAX))='True' and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('RegCreateAccount', 'RegEmailAsUsername', 'RegRandomPass', 'RegSendEmail', 'RegIgnoreUserExists') and ModuleId={ModuleId}
+GO
+
+-- migrate update profile
+
+INSERT INTO  {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'UpdateUserProfile', null, 220, getdate() FROM  {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='UpdateUserProfile' and cast([Value] as nvarchar(MAX))='True' and Main.ModuleId={ModuleId}
+GO
+
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('UpdateUserProfile') and ModuleId={ModuleId}
+GO
+
+-- migrate roles
+
+DECLARE MY_CURSOR Cursor
+FOR 
+select ModuleId, cast('<x><y>'+ replace(replace(cast([Value] as nvarchar(MAX)),';', '</y></x><x><y>'),'@', '</y><y>') + '</y></x>' as xml) as XmlRoleData
+FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='RoleIds' and LEN(cast([Value] as nvarchar(MAX))) > 0 and Main.ModuleId={ModuleId}
+
+Open MY_CURSOR
+DECLARE @xmlData XML, @ModuleId int
+
+Fetch NEXT FROM MY_Cursor INTO @ModuleId, @xmlData
+While (@@FETCH_STATUS <> -1)
+BEGIN
+	IF (@@FETCH_STATUS <> -2)
+		
+		INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+			SELECT @ModuleId, 'submit', 'GrantUserRole', '{'+
+			'RoleId:''' + REPLACE(c.value('y[1]', 'varchar(10)'), '''', '\''') + ''',' +
+			'RoleNames:'''',' +
+			'RoleExpiration:''' + REPLACE(c.value('y[2]', 'varchar(10)'), '''', '\''') + '''' +
+			'}', 240, getdate() FROM @xmlData.nodes('x') as x(c)
+
+		FETCH NEXT FROM MY_CURSOR INTO @ModuleId, @xmlData
+	END
+	CLOSE MY_CURSOR
+	DEALLOCATE MY_CURSOR
+GO
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'GrantUserRole', '{'+
+	'RoleId:'''',' +
+	'RoleNames:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='ManualGrantRoles'), '''', '\''') + ''',' +
+	'RoleExpiration:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='ManualGrantRolesExpire'), '''', '\''') + '''' + 
+	'}', 240, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='ManualGrantRoles' and LEN(cast([Value] as nvarchar(MAX))) > 0 and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('ManualGrantRoles', 'RoleIds', 'ManualGrantRolesExpire') and ModuleId={ModuleId}
+GO
+
+-- migrate SQL queries
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'RunSql', '{'+
+	'SqlQuery:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQuery0'), '''', '\''') + ''',' +
+	'OutputTokenName:''' + (select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQueryToken0') + ''',' +
+	'ShowErrors:' + (select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQueryShowErrors0') + 
+	'}', 400, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='EnableSqlQueries' and cast([Value] as nvarchar(MAX))='True' and LEN((select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQuery0')) > 0 and Main.ModuleId={ModuleId}
+GO
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'RunSql', '{'+
+	'SqlQuery:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQuery1'), '''', '\''') + ''',' +
+	'OutputTokenName:''' + (select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQueryToken1') + ''',' +
+	'ShowErrors:' + (select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQueryShowErrors1') + 
+	'}', 400, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='EnableSqlQueries' and cast([Value] as nvarchar(MAX))='True' and LEN((select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQuery1')) > 0 and Main.ModuleId={ModuleId}
+GO
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'RunSql', '{'+
+	'SqlQuery:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQuery2'), '''', '\''') + ''',' +
+	'OutputTokenName:''' + (select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQueryToken2') + ''',' +
+	'ShowErrors:' + (select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQueryShowErrors2') + 
+	'}', 400, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='EnableSqlQueries' and cast([Value] as nvarchar(MAX))='True' and LEN((select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQuery2')) > 0 and Main.ModuleId={ModuleId}
+GO
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'RunSql', '{'+
+	'SqlQuery:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQuery3'), '''', '\''') + ''',' +
+	'OutputTokenName:''' + (select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQueryToken3') + ''',' +
+	'ShowErrors:' + (select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQueryShowErrors3') + 
+	'}', 400, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='EnableSqlQueries' and cast([Value] as nvarchar(MAX))='True' and LEN((select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='SqlQuery3')) > 0 and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('EnableSqlQueries', 'SqlQuery0', 'SqlQueryToken0', 'SqlQueryShowErrors0', 'SqlQuery1', 'SqlQueryToken1', 'SqlQueryShowErrors1', 'SqlQuery2', 'SqlQueryToken2', 'SqlQueryShowErrors2', 'SqlQuery3', 'SqlQueryToken3', 'SqlQueryShowErrors3' ) and ModuleId={ModuleId}
+GO
+
+
+-- migrate Emails
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'SendMail', '{'+
+	'From:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailNotificationFrom'), '''', '\''') + ''',' +
+	'To:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailNotificationRecipients'), '''', '\''') + ''',' + 
+	'DetermineEmail:false,' + 
+	'ReplyTo:'''',' + 
+	'Subject:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailNotificationSubject'), '''', '\''') + ''',' + 
+	'Body:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailNotificationBody'), '''', '\''') + ''',' + 
+	'File1:'''',' + 
+	'File2:'''',' + 
+	'File3:'''',' + 
+	'File4:'''',' + 
+	'File5:''''' + 
+	'}', 600, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='EmailNotificationRecipients' and LEN(cast([Value] as nvarchar(MAX))) > 0 and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('EmailNotificationRecipients', 'EmailNotificationFrom', 'EmailNotificationSubject', 'EmailNotificationBody') and ModuleId={ModuleId}
+GO
+
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'SendMail', '{'+
+	'From:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailResourceFrom'), '''', '\''') + ''',' +
+	'To:'''',' + 
+	'DetermineEmail:true,' + 
+	'ReplyTo:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailResourceReplyTo'), '''', '\''') + ''',' +
+	'Subject:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailResourceSubjectTemplate'), '''', '\''') + ''',' + 
+	'Body:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailResourceTemplate'), '''', '\''') + ''',' + 
+	'File1:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailFileAsAttachement0'), '''', '\''') + ''',' + 
+	'File2:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailFileAsAttachement1'), '''', '\''') + ''',' + 
+	'File3:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailFileAsAttachement2'), '''', '\''') + ''',' + 
+	'File4:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailFileAsAttachement3'), '''', '\''') + ''',' + 
+	'File5:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='EmailFileAsAttachement4'), '''', '\''') + '''' + 
+	'}', 600, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='EmailResourceTemplate' and LEn(cast([Value] as nvarchar(MAX))) > 0 and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('EmailResourceTemplate', 'EmailResourceFrom', 'EmailResourceReplyTo', 'EmailResourceSubjectTemplate', 'EmailFileAsAttachement0', 'EmailFileAsAttachement1', 'EmailFileAsAttachement2', 'EmailFileAsAttachement3', 'EmailFileAsAttachement4') and ModuleId={ModuleId}
+GO
+
+
+-- migrate Post Data
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'PostData', '{'+
+	'URL:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='NotifyUrl'), '''', '\''') + ''',' +
+	'Data:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='NotifyUrlParams'), '''', '\''') + '''' + 
+	'}', 700, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='NotifyUrl' and LEn(cast([Value] as nvarchar(MAX))) > 0 and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('NotifyUrl', 'NotifyUrlParams') and ModuleId={ModuleId}
+GO
+
+-- migrate save report
+
+--INSERT INTO  {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+--	SELECT ModuleId, 'submit', 'SaveReportDb', null, 800, getdate() FROM  {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='SaveReportDb' and cast([Value] as nvarchar(MAX))='True' and Main.ModuleId={ModuleId}
+--GO
+
+--DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('SaveReportDb') and ModuleId={ModuleId}
+--GO
+
+-- migrate message
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'ShowMessage', '{'+
+	'Message:''' + REPLACE(cast([Value] as nvarchar(MAX)), '''', '\''') + '''}',
+     900, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='ConfirmationMessage' and LEN(cast([Value] as nvarchar(MAX))) > 0 and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('ConfirmationMessage') and ModuleId={ModuleId}
+GO
+
+-- migrate repost data
+
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'RepostData', '{'+
+	'Url:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='RepostUrl'), '''', '\''') + ''',' +
+	'PostData:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='RepostData'), '''', '\''') + ''',' +
+	'RepostEverything:' + (select  LOWER(cast([Value] as nvarchar(MAX))) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='RepostEverything') + '}',
+     1000, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='Repost' and cast([Value] as nvarchar(MAX))='True' and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('Repost', 'RepostUrl', 'RepostData', 'RepostEverything') and ModuleId={ModuleId}
+GO
+
+-- migrate redirect to url
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'RedirectToUrl', '{'+
+	'Url:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='TargetData'), '''', '\''') + '''}',
+     1000, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='TargetType' and cast([Value] as nvarchar(MAX))='Url' and Main.ModuleId={ModuleId}
+GO
+
+-- migrate redirect to page
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'RedirectToPage', '{'+
+	'PageId:' + (select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='TargetData') + '}',
+     1000, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='TargetType' and cast([Value] as nvarchar(MAX))='Page' and Main.ModuleId={ModuleId}
+GO
+
+
+-- migrate redirect to file
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormActions]([ModuleId],[EventName],[ActionType],[ActionData],[OrderIndex],[LastModified]) 
+	SELECT ModuleId, 'submit', 'RedirectToFile', '{'+
+	'File:''' + REPLACE((select  cast([Value] as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='TargetData'), '''', '\''') + ''',' +
+	'Force:' + (select case when cast([Value] as nvarchar(MAX)) = 'ForceDownload' then 'true' else 'false' end from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleId and [Name]='ResourceAccess') + '}',
+     1000, getdate() FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main where [Name]='TargetType' and cast([Value] as nvarchar(MAX))='File' and Main.ModuleId={ModuleId}
+GO
+
+DELETE FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where [Name] in ('TargetType', 'TargetData', 'ForceDownload', 'ResourceAccess') and ModuleId={ModuleId}
+GO

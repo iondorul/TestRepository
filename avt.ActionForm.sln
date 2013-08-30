@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "avt.ActionForm", "avt.ActionForm.csproj", "{A125BEB7-6106-4C84-A81D-E0C2F285E4F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "avt.ActionForm.Core", "avt.ActionForm.Core\avt.ActionForm.Core.csproj", "{AA96FB7B-EA1F-4207-9117-8A418C74C3AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		PublishPackage|Any CPU = PublishPackage|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A125BEB7-6106-4C84-A81D-E0C2F285E4F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A125BEB7-6106-4C84-A81D-E0C2F285E4F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A125BEB7-6106-4C84-A81D-E0C2F285E4F7}.PublishPackage|Any CPU.ActiveCfg = PublishPackage|Any CPU
+		{A125BEB7-6106-4C84-A81D-E0C2F285E4F7}.PublishPackage|Any CPU.Build.0 = PublishPackage|Any CPU
+		{A125BEB7-6106-4C84-A81D-E0C2F285E4F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A125BEB7-6106-4C84-A81D-E0C2F285E4F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA96FB7B-EA1F-4207-9117-8A418C74C3AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA96FB7B-EA1F-4207-9117-8A418C74C3AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA96FB7B-EA1F-4207-9117-8A418C74C3AD}.PublishPackage|Any CPU.ActiveCfg = PublishPackage|Any CPU
+		{AA96FB7B-EA1F-4207-9117-8A418C74C3AD}.PublishPackage|Any CPU.Build.0 = PublishPackage|Any CPU
+		{AA96FB7B-EA1F-4207-9117-8A418C74C3AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA96FB7B-EA1F-4207-9117-8A418C74C3AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

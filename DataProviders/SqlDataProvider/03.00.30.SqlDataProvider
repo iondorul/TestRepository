@@ -1,0 +1,109 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormFields]
+	   ([ModuleId],[Name],[Title],[HelpText],[InputTypeStr],[InputData],[IsRequired],[IsActive],[CssClass],[CssStyles]
+	   ,[DefaultValue],[DateCreated],[LabelCssClass],[LabelCssStyles],[IsEnabled],[CustomValidator1],[CustomValidator2]
+	   ,[ShortDesc],[DisableAutocomplete],[ValidationGroup],[GroupValidator]
+	   ,[ViewOrder],[ColIndex],[RowIndex],[ColSpan],[ColOffset],[ShowCondition])
+
+    SELECT
+           main.ModuleId
+           ,NULL
+           ,(select Value from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleID and Name='SubmitText')
+           ,''
+           ,'button'
+           ,'{"CausesValidation":true,"ShowIn":{"ButtonsPane":true},"ButtonSize":"btn-normal","ButtonType":"btn-info","Actions":""}'
+           ,0,1,'','','',getdate(),'','',1,'','','',0,'','',9999,0,0,3,0,''
+	FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main 
+	WHERE main.Name = 'SubmitType' and cast(main.Value as nvarchar(MAX)) = 'text'
+GO
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormFields]
+		([ModuleId],[Name],[Title],[HelpText],[InputTypeStr],[InputData],[IsRequired],[IsActive],[CssClass],[CssStyles]
+	   ,[DefaultValue],[DateCreated],[LabelCssClass],[LabelCssStyles],[IsEnabled],[CustomValidator1],[CustomValidator2]
+	   ,[ShortDesc],[DisableAutocomplete],[ValidationGroup],[GroupValidator]
+	   ,[ViewOrder],[ColIndex],[RowIndex],[ColSpan],[ColOffset],[ShowCondition])
+	SELECT
+           main.ModuleId
+           ,NULL
+           ,'Submit'
+           ,''
+           ,'image-button'
+           ,'{"CausesValidation":true,"ShowIn":{"ButtonsPane":true},"ImageURL":"'+ (select cast(Value as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleID and Name='SubmitText') +'","Actions":""}'
+           ,0,1,'','','',getdate(),'','',1,'','','',0,'','',9999,0,0,3,0,''
+	FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main 
+	WHERE main.Name = 'SubmitType' and cast(main.Value as nvarchar(MAX)) = 'image'
+GO
+
+
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormFields]
+		([ModuleId],[Name],[Title],[HelpText],[InputTypeStr],[InputData],[IsRequired],[IsActive],[CssClass],[CssStyles]
+	   ,[DefaultValue],[DateCreated],[LabelCssClass],[LabelCssStyles],[IsEnabled],[CustomValidator1],[CustomValidator2]
+	   ,[ShortDesc],[DisableAutocomplete],[ValidationGroup],[GroupValidator]
+	   ,[ViewOrder],[ColIndex],[RowIndex],[ColSpan],[ColOffset],[ShowCondition])
+    SELECT
+           main.ModuleId
+           ,NULL
+           ,(select Value from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleID and Name='CancelText')
+           ,''
+           ,'button'
+           ,'{"CausesValidation":false,"ShowIn":{"ButtonsPane":true},"ButtonSize":"btn-normal","ButtonType":"btn-link","Actions":""}'
+           ,0,1,'','','',getdate(),'','',1,'','','',0,'','',9999,0,0,3,0,''
+	FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main 
+	WHERE main.Name = 'CancelType' and cast(main.Value as nvarchar(MAX)) = 'text'
+GO
+
+INSERT INTO {databaseOwner}[{objectQualifier}avtActionForm_FormFields]
+		([ModuleId],[Name],[Title],[HelpText],[InputTypeStr],[InputData],[IsRequired],[IsActive],[CssClass],[CssStyles]
+	   ,[DefaultValue],[DateCreated],[LabelCssClass],[LabelCssStyles],[IsEnabled],[CustomValidator1],[CustomValidator2]
+	   ,[ShortDesc],[DisableAutocomplete],[ValidationGroup],[GroupValidator]
+	   ,[ViewOrder],[ColIndex],[RowIndex],[ColSpan],[ColOffset],[ShowCondition])
+	SELECT
+           main.ModuleId
+           ,NULL
+           ,'Cancel'
+           ,''
+           ,'image-button'
+           ,'{"CausesValidation":false,"ShowIn":{"ButtonsPane":true},"ImageURL":"'+ (select cast(Value as nvarchar(MAX)) from {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where ModuleId = main.ModuleID and Name='CancelText') +'","Actions":""}'
+           ,0,1,'','','',getdate(),'','',1,'','','',0,'','',9999,0,0,3,0,''
+	FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] main 
+	WHERE main.Name = 'CancelType' and cast(main.Value as nvarchar(MAX)) = 'image'
+GO
+
+-- migrate actions
+
+ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormActions] ADD FieldId int NULL
+GO
+
+
+
+UPDATE {databaseOwner}[{objectQualifier}avtActionForm_FormActions] SET EventName='click', 
+	FieldId = (select FormFieldId from {databaseOwner}[{objectQualifier}avtActionForm_FormFields] where (InputTypeStr='button' or InputTypeStr='image-button') and ModuleId = {databaseOwner}[{objectQualifier}avtActionForm_FormActions].ModuleId and CHARINDEX('"CausesValidation":true', InputData) != 0)
+	where EventName = 'submit'
+GO
+
+
+UPDATE {databaseOwner}[{objectQualifier}avtActionForm_FormActions] SET EventName='click', 
+	FieldId = (select FormFieldId from {databaseOwner}[{objectQualifier}avtActionForm_FormFields] where (InputTypeStr='button' or InputTypeStr='image-button') and ModuleId = {databaseOwner}[{objectQualifier}avtActionForm_FormActions].ModuleId and CHARINDEX('"CausesValidation":false', InputData) != 0)
+	where EventName = 'cancel'
+GO
+
+
+-- remove old settings
+
+delete FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where Name='SubmitType'
+GO
+delete FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where Name='SubmitText'
+GO
+delete FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where Name='CancelText'
+GO
+delete FROM {databaseOwner}[{objectQualifier}avtActionForm_FormSettings] where Name='CancelType'
+GO
+

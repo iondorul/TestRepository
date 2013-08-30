@@ -1,0 +1,4 @@
+The files in the folder configure what actions are available in Action Forms.
+
+Create XML files simillar to .defaults.xml to have your own fields available in Action Form right from the start.
+Don't edit .defaults.xml as this file will get overwritten on upgrades!

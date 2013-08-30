@@ -1,0 +1,20 @@
+D:\clone ActionForm\bin\debug\avt.ActionForm.dll
+D:\clone ActionForm\bin\debug\avt.ActionForm.pdb
+D:\clone ActionForm\bin\debug\avt.ActionForm.Core.dll
+D:\clone ActionForm\bin\debug\LumenWorks.Framework.IO.dll
+D:\clone ActionForm\bin\debug\Microsoft.ApplicationBlocks.Data.dll
+D:\clone ActionForm\bin\debug\avt.ActionForm.Core.pdb
+D:\clone ActionForm\bin\debug\LumenWorks.Framework.IO.xml
+D:\clone ActionForm\obj\Debug\ResolveAssemblyReference.cache
+D:\clone ActionForm\obj\Debug\avt.ActionForm.dll
+D:\clone ActionForm\obj\Debug\avt.ActionForm.pdb
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\bin\debug\avt.ActionForm.dll
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\bin\debug\avt.ActionForm.pdb
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\bin\debug\avt.ActionForm.Core.dll
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\bin\debug\LumenWorks.Framework.IO.dll
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\bin\debug\Microsoft.ApplicationBlocks.Data.dll
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\bin\debug\avt.ActionForm.Core.pdb
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\bin\debug\LumenWorks.Framework.IO.xml
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\obj\Debug\ResolveAssemblyReference.cache
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\obj\Debug\avt.ActionForm.dll
+D:\DNNWebsites\DNN561Source\website\DesktopModules\AvatarSoft\ActionForm\obj\Debug\avt.ActionForm.pdb

@@ -1,0 +1,11 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------------------------------------------------------------------
+
+IF COL_LENGTH('{databaseOwner}[{objectQualifier}avtActionForm_FormFields]','DisableAutocomplete') IS NULL
+    ALTER TABLE {databaseOwner}[{objectQualifier}avtActionForm_FormFields] ADD DisableAutocomplete bit default(0) NULL
+GO

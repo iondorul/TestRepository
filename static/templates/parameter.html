@@ -1,0 +1,140 @@
+<div data-ng-switch="p.Type">
+
+    <div class="control-group" data-ng-switch-when="Boolean">
+        <div class="controls">
+            <label class="checkbox pull-left">
+                <input type="checkbox" data-ng-model="item.Parameters[p.Id]" />
+                {{p.Title[lang]}}
+            </label>
+            <p class="muted help" style="clear: both;" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+    <div class="control-group" data-ng-switch-when="Code">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <textarea rows="8" class="span7 code" data-ng-model="item.Parameters[p.Id]"></textarea>
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+    <div class="control-group" data-ng-switch-when="Textarea">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <textarea rows="8" class="span7" data-ng-model="item.Parameters[p.Id]"></textarea>
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+    <!--<div class="control-group" data-ng-switch-when="DateTime">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <input type="text" class="span7 text" data-ng-model="item.Parameters[p.Id].Date" />
+            <input type="text" class="span7 text" data-ng-model="item.Parameters[p.Id].Time" />
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>-->
+
+    <div class="control-group" data-ng-switch-when="RichText">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <textarea rows="12" class="span7 richtext" data-ng-model="item.Parameters[p.Id]" data-ui-tinymce="tinymceOptions"></textarea>
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+    <!-- The source is specified in 'Settings/DataSource' or in place if 'Settings/Items' is used -->
+    <div class="control-group" data-ng-switch-when="Select">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <select class="input-xxlarge" data-ng-model="model" data-ctl-datasource="p" data-updatemodel="item.Parameters[p.Id]" data-ng-options="c.Value as c.Name for c in items">
+                <option value="">--</option>
+            </select>
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+    <!-- CheckboxList: very much like the previous Select -->
+    <div class="control-group" data-ng-switch-when="CheckboxList">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <div data-ng-model="model" data-ctl-datasource="p" data-updatemodel="item.Parameters[p.Id]">
+                <button data-ng-repeat="c in items" data-ng-model="model[c.Value]" data-bs-checkbox="{{c.Name}}" data-bs-init="true" style="margin-right:4px;"></button>
+            </div>
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+    <div class="control-group" data-ng-switch-when="RadioList">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+           <div data-ng-model="item.Parameters[p.Id]" data-ng-options="o for o in p.Settings['Items']" data-bs-radiogroup="">
+            </div>
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+
+    <div class="control-group" data-ng-switch-when="FieldSelect">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <select class="input-large" data-ng-model="item.Parameters[p.Id]" data-ng-options="c.BoundName as c.Title for c in sharedData.fields | filter:{InputTypeStr:p.Settings['FieldType']} | filter:sharedData.exceptItem(item.BoundName)">
+                <option value="">--</option>
+            </select>
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+    <!-- Like previous but capable of generating a list of FieldSelect -->
+    <div class="control-group" data-ng-switch-when="MultipleFieldSelect">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        <div class="controls row-fluid">
+            <span class="span12"></span>
+            <div data-ng-repeat="savedValue in item.Parameters[p.Id]" class="span5" style="margin-bottom: 3px;">
+                <select class="span9" data-ng-model="item.Parameters[p.Id][$index]" data-ng-options="c.BoundName as c.Title for c in sharedData.fields | filter:{InputTypeStr:p.Settings['FieldType']} | filter:sharedData.notInArray(item.Parameters[p.Id], $index)">
+                    <option value="">--</option>
+                </select>
+                <button class="btn btn-link" type="button" data-ng-click="item.Parameters[p.Id].splice($index, 1)"><i class="icon-trash"></i></button>
+            </div>
+            <div class="span6">
+            <button class="btn btn-link" type="button" data-ng-click="item.Parameters[p.Id].push({})">Add Button</button>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="control-group" data-ng-switch-when="Number">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <input type="text" class="number" data-ng-model="item.Parameters[p.Id]" />
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+    <div class="control-group" data-ng-switch-when="URL">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <input type="url" class="span7 url" data-ng-model="item.Parameters[p.Id]" />
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+
+     <div class="control-group" data-ng-switch-when="ActionList">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+            <div class="event-root" data-ng-controller="EventCtrl" data-ng-init="init(p.Settings['Event'], null, item)">
+                <div data-ng-include="'static/templates/action-list.html'"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-group" data-ng-switch-default="">
+        <label class="control-label">{{p.Title[lang]}}</label>
+        <div class="controls">
+            <input type="text" class="span7 text" data-ng-model="item.Parameters[p.Id]" />
+            <p class="muted help" data-ng-bind-html-unsafe="p.HelpText[lang]"></p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+The files in the folder configure what form templates are available in Action Forms when create a new form.
+
+These are files exported using the Export Module feature from module actions.
+Place other files in this folder to have them come up as templates.
